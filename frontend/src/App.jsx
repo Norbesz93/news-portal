@@ -7,13 +7,8 @@ function App() {
   const [isPending, setIsPending] = React.useState(true)
 
   const [result, setResult]=React.useState()
-  const url = 'https://newsapi.org/v2/top-headlines?' +
-             'category=technology&' +
-             'country=hu&'+
-             'apiKey=c75e519a86484a9b830e5aa0e23071ee';
-
     const req = async()=>{
-     const response = await axios.get(url)
+     const response = await axios.get(`http://localhost:8080/api/news`)
       setResult(response)
       setIsPending(false)
     }
@@ -48,7 +43,7 @@ function App() {
         </div>
         }
 
-        { !isPending && result.data.articles.map(article => 
+        { !isPending && result.data.map(article => 
           <div className="art">
             <Article article={article} key={article.title}/>
           </div>
