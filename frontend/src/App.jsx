@@ -22,11 +22,11 @@ function App() {
     <div>
       <div className='navbar'>
         <div className="menu-loader">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
+          <span className='slide-in-blurred-top'></span>
+          <span className='slide-in-blurred-top'></span>
+          <span className='slide-in-blurred-top'></span>
+          <span className='slide-in-blurred-top'></span>
+          <span className='slide-in-blurred-top'></span>
         </div>
       </div>
 
