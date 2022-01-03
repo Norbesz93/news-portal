@@ -1,0 +1,226 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,600;1,100;1,400;1,600&display=swap');
+
+body{
+  font-family: Montserrat;
+}
+
+
+.navbar {
+  width: 100%;
+  height: 50px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid rgb(214, 214, 214);
+  background-color: white;
+}
+  
+  .menu-loader {
+    text-align: center;
+    vertical-align: middle;
+    position: relative;
+    display: flex;
+    background: white;
+    box-shadow: 0px 40px 60px -20px rgba(0, 0, 0, 0.2);
+  }
+  
+  .menu-loader span {
+    display: block;
+    width: 20px;
+    height: 20px;
+    background: #eee;
+    border-radius: 50%;
+    margin: 0 5px;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+  }
+  
+  .menu-loader span:nth-child(2) {
+    background: #f07e6e;
+  }
+  
+  .menu-loader span:nth-child(3) {
+    background: #84cdfa;
+  }
+  
+  .menu-loader span:nth-child(4) {
+    background: #5ad1cd;
+  }
+  
+  .menu-loader span:not(:last-child) {
+    animation: animate 1.5s linear infinite;
+  }
+  
+  @keyframes animate {
+    0% {
+      transform: translateX(0);
+    }
+  
+    100% {
+      transform: translateX(30px);
+    }
+  }
+  
+  .menu-loader span:last-child {
+    animation: jump 1.5s ease-in-out infinite;
+  }
+  
+  @keyframes jump {
+    0% {
+      transform: translate(0, 0);
+    }
+    10% {
+      transform: translate(10px, -10px);
+    }
+    20% {
+      transform: translate(20px, 10px);
+    }
+    30% {
+      transform: translate(30px, -50px);
+    }
+    70% {
+      transform: translate(-150px, -50px);
+    }
+    80% {
+      transform: translate(-140px, 10px);
+    }
+    90% {
+      transform: translate(-130px, -10px);
+    }
+    100% {
+      transform: translate(-120px, 0);
+    }
+  }
+  
+
+.content {
+  margin-top: 80px; 
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.art{
+  flex-basis: 33.33%;
+
+} 
+
+.article{
+  margin: 10px 20px;
+}
+
+.article-img{
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+h4{
+  font-size: 20px;
+  color: #3e8b89;
+  font-weight: 300;
+  margin-bottom: 0px;
+}
+
+.description{
+  margin: 5px 0px;
+  font-weight: 300;
+  font-size: 16px;
+}
+
+.date{
+  margin: 5px 0px;
+  font-style: italic;
+  font-weight: 300;
+  font-size: 14px;
+}
+
+.source{
+  margin: 5px 0px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #f07e6e;
+}
+
+
+/* Loading animation: */
+.loader {
+  text-align: center;
+  vertical-align: middle;
+  position: relative;
+  display: flex;
+  background: white;
+  padding: 150px;
+  box-shadow: 0px 40px 60px -20px rgba(0, 0, 0, 0.2);
+
+  z-index: 999;
+}
+
+.loader span {
+  display: block;
+  width: 20px;
+  height: 20px;
+  background: #eee;
+  border-radius: 50%;
+  margin: 0 5px;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+.loader span:nth-child(2) {
+  background: #f07e6e;
+}
+
+.loader span:nth-child(3) {
+  background: #84cdfa;
+}
+
+.loader span:nth-child(4) {
+  background: #5ad1cd;
+}
+
+.loader span:not(:last-child) {
+  animation: animate 1.5s linear infinite;
+}
+
+@keyframes animate {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(30px);
+  }
+}
+
+.loader span:last-child {
+  animation: jump 1.5s ease-in-out infinite;
+}
+
+@keyframes jump {
+  0% {
+    transform: translate(0, 0);
+  }
+  10% {
+    transform: translate(10px, -10px);
+  }
+  20% {
+    transform: translate(20px, 10px);
+  }
+  30% {
+    transform: translate(30px, -50px);
+  }
+  70% {
+    transform: translate(-150px, -50px);
+  }
+  80% {
+    transform: translate(-140px, 10px);
+  }
+  90% {
+    transform: translate(-130px, -10px);
+  }
+  100% {
+    transform: translate(-120px, 0);
+  }
+}
