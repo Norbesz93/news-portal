@@ -58,12 +58,12 @@ app.get("/api/news", (req,res)=>{
         const db = client.db("news");
     
         db.collection('technews').find({}).toArray().then((docs) => {
-    
+            res.send(docs)
         }).catch((err) => {
     
             console.log(err);
         }).finally(() => {
-            res.send(docs)
+ 
             client.close();
         });
     });
