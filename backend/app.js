@@ -31,7 +31,12 @@ const task = new Task('get news', async () => {
     let currentNews = [];
 
     for (const article of news.data.articles) {
-        currentNews.push(article)
+        let query = { url: article.url}
+        collection.findOne(query).then(record => {
+            if (record == null){
+                currentNews.push(article)
+            }
+        })
     }
 
     collection.insertMany(currentNews).then(result => {
@@ -46,7 +51,7 @@ const task = new Task('get news', async () => {
     });
 });
 })
-const job = new SimpleIntervalJob({ minutes: 59, }, task)
+const job = new SimpleIntervalJob({ minutes: 1, }, task)
 
 scheduler.addSimpleIntervalJob(job)
 
