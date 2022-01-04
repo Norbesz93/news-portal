@@ -20,15 +20,31 @@ function App() {
     req();
   }, []);
 
-  console.log(result);
+  // console.log(result);
+
+  const [times, setTimes] = React.useState([])
+
+  const getTimes = () => {
+    const timesList = newsBlock.map((article) => article.publishedAt)
+    setTimes(timesList)
+  }  
 
   const next = async () => {
-    const response = await axios.get(`http://localhost:8080/api/oldnews`);
+    getTimes()
+    const response = await axios.get(`http://localhost:8080/api/oldnews,${{oldestNewsTime:oldestNewsTime, newestNewsTime:newestNewsTime}}`);
     newsBlock.push(response.data)
     setNewsBlock([...newsBlock]);
+    
   };
 
   console.log(newsBlock);
+  console.log(times)
+
+  const sortedTimes = times.sort()
+  const oldestNewsTime = sortedTimes[0]
+  const newestNewsTime = sortedTimes.pop()
+  console.log(oldestNewsTime)
+  console.log(newestNewsTime)
 
   return (
     <div>
