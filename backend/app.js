@@ -20,7 +20,7 @@ const scheduler = new ToadScheduler()
 const task = new Task('get news', async () => {
    let news = await axios.get(url)
 
-   MongoClient.connect(dataURL, { useNewUrlParser: true }, (err, client) => {
+   MongoClient.connect(dataURL, { useNewUrlParser: true }, async (err, client) => {
 
     if (err) throw err;
 
@@ -32,26 +32,31 @@ const task = new Task('get news', async () => {
 
     for (const article of news.data.articles) {
         let query = { url: article.url}
-        collection.findOne(query).then(record => {
-            if (record == null){
-                currentNews.push(article)
-            }
-        })
+        const item = await collection.findOne(query)
+        if (item == null){
+            currentNews.push(article)
+        }
+       
+    }
+    if (currentNews.length >0 ){
+        collection.insertMany(currentNews).then(result => {
+
+            console.log("documents inserted into the collection");
+        }).catch((err) => {
+    
+            console.log(err);
+        }).finally(() => {
+    
+            client.close();
+        });
+    }else{
+        console.log("I didn't find any new news")
+        client.close();
     }
 
-    collection.insertMany(currentNews).then(result => {
-
-        console.log("documents inserted into the collection");
-    }).catch((err) => {
-
-        console.log(err);
-    }).finally(() => {
-
-        client.close();
-    });
 });
 })
-const job = new SimpleIntervalJob({ minutes: 1, }, task)
+const job = new SimpleIntervalJob({ minutes: 59, }, task)
 
 scheduler.addSimpleIntervalJob(job)
 
@@ -63,15 +68,61 @@ app.get("/api/news", (req,res)=>{
         const db = client.db("news");
     
         db.collection('technews').find({}).toArray().then((docs) => {
-            res.send(docs)
+            const sendNews = []
+            for (const news of docs) {
+                if (sendNews.length < 20){
+                    sendNews.push(news)
+                }
+            }
+            res.send(sendNews)
         }).catch((err) => {
     
             console.log(err);
         }).finally(() => {
- 
+    
             client.close();
         });
     });
 })
+
+app.get("/api/oldnews", (req,res)=>{
+    MongoClient.connect(dataURL, { useNewUrlParser: true }, (err, client) => {
+
+        if (err) throw err;
+    
+        const db = client.db("news");
+    
+        db.collection('technews').find({}).toArray().then((docs) => {
+         
+        }).catch((err) => {
+    
+            console.log(err);
+        }).finally(() => {
+    
+            client.close();
+        });
+    });
+})
+
+const test = async ()=>{
+    MongoClient.connect(dataURL, { useNewUrlParser: true }, (err, client) => {
+
+        if (err) throw err;
+    
+        const db = client.db("news");
+    
+         db.collection('technews').find({}).toArray().then((docs) => {
+         console.log(docs)
+        }).catch((err) => {
+    
+            console.log(err);
+        }).finally(() => {
+    
+            client.close();
+        });
+    });
+}
+
+test()
 
 app.listen(8080)
