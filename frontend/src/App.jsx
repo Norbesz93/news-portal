@@ -26,7 +26,7 @@ function App() {
 
   const next = async () => {
     const response = await axios.post('http://localhost:8080/api/oldnews', {
-      oldestNewsTime:newestNewsTime
+      oldestNewsTime:oldestNewsTime
     }, {
       headers: {
         'Content-Type': 'application/json'
@@ -37,6 +37,8 @@ function App() {
       newsBlock.push(news)
     }
       setNewsBlock([...newsBlock]);
+      const timesList = await response.data.map((article) => article.publishedAt)
+      setTimes(timesList)
     
   };
 

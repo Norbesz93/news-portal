@@ -6,7 +6,6 @@ const { ToadScheduler, SimpleIntervalJob, Task } = require('toad-scheduler')
 const MongoClient = mongo.MongoClient;
 const ObjectID = mongo.ObjectID;
 const axios = require('axios');
-const { query } = require('express');
 const dataURL='mongodb://localhost:27017';
 const url = 
 'https://newsapi.org/v2/top-headlines?' +
@@ -57,7 +56,7 @@ const task = new Task('get news', async () => {
 
 });
 })
-const job = new SimpleIntervalJob({ minutes: 1, }, task)
+const job = new SimpleIntervalJob({ minutes: 59, }, task)
 
 scheduler.addSimpleIntervalJob(job)
 
@@ -67,8 +66,10 @@ app.get("/api/news", (req,res)=>{
         if (err) throw err;
     
         const db = client.db("news");
+
+        let sort = {publishedAt: 1}
     
-        db.collection('technews').find({}).toArray().then((docs) => {
+        db.collection('technews').find().sort(sort).toArray().then((docs) => {
             const sendNews = []
             for (var i = docs.length - 1; i >= 0; i--) {            
                 if (sendNews.length < 20){
@@ -94,11 +95,11 @@ app.post("/api/oldnews", (req,res)=>{
         if (err) throw err;
     
         const db = client.db("news");
-    
-        db.collection('technews').find({}).toArray().then((docs) => {
+        let sort = {publishedAt: 1}
+        db.collection('technews').find().sort(sort).toArray().then((docs) => {
             const sendNews = []
             for (var i = docs.length - 1; i >= 0; i--) {            
-                if (sendNews.length < 20 && docs[i].publishedAt < currentNewsTime){
+                if (sendNews.length < 20 && docs[i].publishedAt <= currentNewsTime){
                     sendNews.push(docs[i])
                 }
             }
