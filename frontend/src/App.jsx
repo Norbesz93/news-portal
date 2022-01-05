@@ -7,13 +7,14 @@ import InfiniteScroll from "react-infinite-scroll-component";
 function App() {
   const [isPending, setIsPending] = React.useState(true);
   const [newsBlock, setNewsBlock] = React.useState([]);
-  const [result, setResult] = React.useState();
-
+  const [times, setTimes] = React.useState([])
+  
   const req = async () => {
     const response = await axios.get(`http://localhost:8080/api/news`);
-    setResult(response);
     setIsPending(false);
     setNewsBlock(response.data)
+    const timesList = await response.data.map((article) => article.publishedAt)
+    setTimes(timesList)
   };
 
   useEffect(() => {
@@ -22,18 +23,20 @@ function App() {
 
   // console.log(result);
 
-  const [times, setTimes] = React.useState([])
-
-  const getTimes = () => {
-    const timesList = newsBlock.map((article) => article.publishedAt)
-    setTimes(timesList)
-  }  
 
   const next = async () => {
-    getTimes()
-    const response = await axios.get(`http://localhost:8080/api/oldnews,${{oldestNewsTime:oldestNewsTime, newestNewsTime:newestNewsTime}}`);
-    newsBlock.push(response.data)
-    setNewsBlock([...newsBlock]);
+    const response = await axios.post('http://localhost:8080/api/oldnews', {
+      oldestNewsTime:newestNewsTime
+    }, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    console.log(response.data[0].source)
+    for (const news of response.data) {
+      newsBlock.push(news)
+    }
+      setNewsBlock([...newsBlock]);
     
   };
 
@@ -59,7 +62,6 @@ function App() {
       </div>
 
       <div className="content">
-        {/* <button onClick={next}>Click</button> */}
 
         {isPending && (
           <div className="loader">

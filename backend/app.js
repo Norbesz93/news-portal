@@ -5,7 +5,8 @@ const mongo = require('mongodb');
 const { ToadScheduler, SimpleIntervalJob, Task } = require('toad-scheduler')
 const MongoClient = mongo.MongoClient;
 const ObjectID = mongo.ObjectID;
-const axios = require('axios')
+const axios = require('axios');
+const { query } = require('express');
 const dataURL='mongodb://localhost:27017';
 const url = 
 'https://newsapi.org/v2/top-headlines?' +
@@ -34,7 +35,7 @@ const task = new Task('get news', async () => {
         let query = { url: article.url}
         const item = await collection.findOne(query)
         if (item == null){
-            currentNews.push(article)
+            currentNews.unshift(article)
         }
        
     }
@@ -56,7 +57,7 @@ const task = new Task('get news', async () => {
 
 });
 })
-const job = new SimpleIntervalJob({ minutes: 59, }, task)
+const job = new SimpleIntervalJob({ minutes: 1, }, task)
 
 scheduler.addSimpleIntervalJob(job)
 
@@ -69,9 +70,9 @@ app.get("/api/news", (req,res)=>{
     
         db.collection('technews').find({}).toArray().then((docs) => {
             const sendNews = []
-            for (const news of docs) {
+            for (var i = docs.length - 1; i >= 0; i--) {            
                 if (sendNews.length < 20){
-                    sendNews.push(news)
+                    sendNews.push(docs[i])
                 }
             }
             res.send(sendNews)
@@ -85,7 +86,9 @@ app.get("/api/news", (req,res)=>{
     });
 })
 
-app.get("/api/oldnews", (req,res)=>{
+app.post("/api/oldnews", (req,res)=>{
+    console.log(req.body)
+    let currentNewsTime = req.body.oldestNewsTime
     MongoClient.connect(dataURL, { useNewUrlParser: true }, (err, client) => {
 
         if (err) throw err;
@@ -93,7 +96,13 @@ app.get("/api/oldnews", (req,res)=>{
         const db = client.db("news");
     
         db.collection('technews').find({}).toArray().then((docs) => {
-         
+            const sendNews = []
+            for (var i = docs.length - 1; i >= 0; i--) {            
+                if (sendNews.length < 20 && docs[i].publishedAt < currentNewsTime){
+                    sendNews.push(docs[i])
+                }
+            }
+            res.send(sendNews)
         }).catch((err) => {
     
             console.log(err);
@@ -103,26 +112,5 @@ app.get("/api/oldnews", (req,res)=>{
         });
     });
 })
-
-const test = async ()=>{
-    MongoClient.connect(dataURL, { useNewUrlParser: true }, (err, client) => {
-
-        if (err) throw err;
-    
-        const db = client.db("news");
-    
-         db.collection('technews').find({}).toArray().then((docs) => {
-         console.log(docs)
-        }).catch((err) => {
-    
-            console.log(err);
-        }).finally(() => {
-    
-            client.close();
-        });
-    });
-}
-
-test()
 
 app.listen(8080)
