@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import Article from "./Components/Article";
 import InfiniteScroll from "react-infinite-scroll-component";
+import Landing from "./Components/Landing";
 
 function App() {
   const [isPending, setIsPending] = React.useState(true);
@@ -83,30 +84,35 @@ function App() {
       </div>
 
       <div className="content">
+        <div className="landingcontent">
+          <Landing/>
+        </div>
 
-        {isPending && (
-          <div className="loader">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-        )}
+        <div className="newscontent">
+          {isPending && (
+            <div className="loader">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          )}
 
-        <InfiniteScroll
-          dataLength={newsBlock.length} //This is important field to render the next data
-          next={next}
-          hasMore={true}
-          loader={isLoading}
-        >
-          {newsBlock.length > 0 &&
-            newsBlock.map((article) => (
-              <div className="art">
-                <Article article={article} key={article.title} />
-              </div>
-            ))}
-        </InfiniteScroll>
+          <InfiniteScroll
+            dataLength={newsBlock.length} //This is important field to render the next data
+            next={next}
+            hasMore={true}
+            loader={isLoading}
+          >
+            {newsBlock.length > 0 &&
+              newsBlock.map((article) => (
+                <div className="art">
+                  <Article article={article} key={article.title} />
+                </div>
+              ))}
+          </InfiniteScroll>
+        </div>
       </div>
     </div>
   );

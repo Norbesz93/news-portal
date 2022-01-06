@@ -1,12 +1,34 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,600;1,100;1,400;1,600&display=swap');
 
+* {margin:0;padding:0;border:0;background:transparent;outline:none;text-decoration:none;outline:none;font-family:inherit;box-sizing:border-box;}
+ol, ul, li {list-style:none;display:block;}
+table {border-collapse: collapse;border-spacing:0;}
+a img {border: none;}
+
+
 body{
   font-family: Montserrat;
   width: 90%;
   margin: auto;
   overflow-x: hidden;
 }
+/* 
+.newscontent{
+  display: none;
+} */
 
+.landingcontent{
+  height: 80vh;
+}
+
+.landingcontent .menu-loader span{
+  width: 50px;
+  height: 50px;
+}
+
+.landingcontent .menu-loader {
+  box-shadow: none;
+}
 
 .navbar {
   width: 100%;
