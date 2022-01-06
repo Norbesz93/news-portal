@@ -17,6 +17,8 @@ app.use(cors())
 app.use(express.json())
 const scheduler = new ToadScheduler()
 
+const secret = {key: "working"}
+
 const task = new Task('get news', async () => {
    let news = await axios.get(url)
 
@@ -61,6 +63,7 @@ const job = new SimpleIntervalJob({ minutes: 59, }, task)
 scheduler.addSimpleIntervalJob(job)
 
 app.get("/api/news", (req,res)=>{
+    if(req.headers.key == "working"){
     MongoClient.connect(dataURL, { useNewUrlParser: true }, (err, client) => {
 
         if (err) throw err;
@@ -84,7 +87,9 @@ app.get("/api/news", (req,res)=>{
     
             client.close();
         });
-    });
+    });}else{
+        res.json(secret)
+    }
 })
 
 app.post("/api/oldnews", (req,res)=>{

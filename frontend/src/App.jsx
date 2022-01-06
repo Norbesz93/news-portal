@@ -7,6 +7,7 @@ import Landing from "./Components/Landing";
 
 function App() {
   const [isPending, setIsPending] = React.useState(true);
+  const [auth, setAuth] = React.useState(true);
   const [newsBlock, setNewsBlock] = React.useState([]);
   const [times, setTimes] = React.useState([])
   const [isLoading, setIsLoading] = React.useState( 
@@ -20,12 +21,16 @@ function App() {
   )
   
   const req = async () => {
-    const response = await axios.get(`http://localhost:8080/api/news`);
+    const response = await axios.get(`http://localhost:8080/api/news`,{headers:{key: localStorage.getItem('data')}});
     setIsPending(false);
+    if (response.data.key){
+      localStorage.setItem('data', response.data.key)
+    }else{
+    setAuth(false)  
     setNewsBlock(response.data)
     const timesList = await response.data.map((article) => article.publishedAt)
     setTimes(timesList)
-  };
+  }};
 
   useEffect(() => {
     req();
@@ -43,7 +48,6 @@ function App() {
         'Content-Type': 'application/json'
       }
     });
-    console.log(response.data[0].source)
     for (const news of response.data) {
       newsBlock.push(news)
     }
@@ -84,10 +88,11 @@ function App() {
       </div>
 
       <div className="content">
+        {auth ?
         <div className="landingcontent">
           <Landing/>
         </div>
-
+        :
         <div className="newscontent">
           {isPending && (
             <div className="loader">
@@ -113,6 +118,7 @@ function App() {
               ))}
           </InfiniteScroll>
         </div>
+}
       </div>
     </div>
   );
