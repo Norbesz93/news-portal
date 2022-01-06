@@ -76,6 +76,7 @@ body{
   grid-template-columns: 30% 30% 30%;
   gap: 30px;
   padding-bottom: 30px;
+  overflow: hidden;
 }
 
 .art:nth-child(1){
@@ -220,6 +221,8 @@ h4{
   margin: 0;
   font-weight: 300;
   font-size: 16px;
+  line-height: 1;
+  height: fit-content;
 }
 
 .link {
