@@ -71,7 +71,7 @@ app.get("/api/news", (req,res)=>{
     
         db.collection('technews').find().sort(sort).toArray().then((docs) => {
             const sendNews = []
-            for (var i = docs.length - 1; i >= 0; i--) {            
+            for (let i = docs.length - 1; i >= 0; i--) {            
                 if (sendNews.length < 20){
                     sendNews.push(docs[i])
                 }
@@ -88,7 +88,6 @@ app.get("/api/news", (req,res)=>{
 })
 
 app.post("/api/oldnews", (req,res)=>{
-    console.log(req.body)
     let currentNewsTime = req.body.oldestNewsTime
     MongoClient.connect(dataURL, { useNewUrlParser: true }, (err, client) => {
 
