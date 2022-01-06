@@ -42,15 +42,30 @@ function App() {
   const next = async () => {
     try {
       const response = await axios.post('http://localhost:8080/api/oldnews', {
-      oldestNewsTime:oldestNewsTime
-    }, {
-      headers: {
-        'Content-Type': 'application/json'
+        oldestNewsTime: oldestNewsTime
+      }, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      const newArray = []
+      for (const res of response.data) {
+        let counter = 0
+        for (const news of newsBlock) {
+          if (res.title === news.title) {
+            counter = counter +1
+            break
+          }
+
+        }
+        if(counter === 0 ){
+        newArray.push(res)
       }
-    });
-    for (const news of response.data) {
-      newsBlock.push(news)
-    }
+      }
+      for (const newsWithoutDuplicated of newArray) {
+        newsBlock.push(newsWithoutDuplicated)
+      }
+
       setNewsBlock([...newsBlock]);
       const timesList = await response.data.map((article) => article.publishedAt)
       setTimes(timesList)
@@ -61,8 +76,8 @@ function App() {
         </p>
       )
     }
-    
-    
+
+
   };
 
   console.log(newsBlock);
