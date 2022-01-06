@@ -15,6 +15,10 @@ body{
 
 .landing-box{
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .enter {
@@ -79,53 +83,89 @@ body{
   overflow: hidden;
 }
 
-.art:nth-child(1){
+@media only screen and (max-width: 960px) {
+  .infinite-scroll-component {
+    padding: 0px 5px;
+    grid-template-columns: 100%;
+  }  
+
+  .landing-box{
+    overflow: hidden;
+  }
+
+  .perspective-text{
+    margin-top: 50px !important;
+  }
+
+  .perspective-line{
+    width: 250px !important;
+    margin-left: -36%;
+  }
+
+  .perspective-line p{
+    font-size: 36px;
+  }
+
+  .enter{
+    margin-top: 100px;
+  }
+
+  .source{
+    line-height: 2.8em;
+  }
+}
+
+@media screen and (min-width: 961px) {
+  
+  .art:nth-child(1){
   grid-column-start: 1;
   grid-column-end: 4;
-} 
+  } 
 
-.art:nth-child(1) .main-data{
-  height: 85vh;
-  grid-template-columns: 84vh auto;
+  .art:nth-child(1) .main-data{
+    height: 85vh;
+    grid-template-columns: 84vh auto;
+  }
+
+  .art:nth-child(1) .main-right{
+    margin-bottom: 50px;
+  }
+
+  .art:nth-child(1) h4{
+    font-size: 28px;
+  }
+
+  .art:nth-child(1) .article {
+    box-shadow: none;
+  }
+
+  .art:nth-child(1) .description{
+    display: none;
+  }
+
+  .art:nth-child(1) .date{
+    display: none;
+  }
+
+  .art:nth-child(1) .source{
+    margin-top: -28px;
+  }
+
+  .art:nth-child(1) .link{
+    margin-top: -50px;
+    background-color: #FFF;
+    font-size: 20px;
+    padding: 15px 25px;
+    transition: all .2s ease-in-out;
+  }
+
+
+  .art:nth-child(1) .link:hover{
+    color: #f07e6e;
+    transform: scale(1.1);
+  }
 }
 
-.art:nth-child(1) .main-right{
-  margin-bottom: 50px;
-}
-
-.art:nth-child(1) h4{
-  font-size: 28px;
-}
-
-.art:nth-child(1) .article {
-  box-shadow: none;
-}
-
-.art:nth-child(1) .description{
-  display: none;
-}
-
-.art:nth-child(1) .date{
-  display: none;
-}
-
-.art:nth-child(1) .source{
-  margin-top: -28px;
-}
-
-.art:nth-child(1) .link{
-  margin-top: -50px;
-  background-color: #FFF;
-  font-size: 20px;
-  padding: 15px 25px;
-  transition: all .2s ease-in-out;
-}
-
-
-.art:nth-child(1) .link:hover{
-  color: #f07e6e;
-  transform: scale(1.1);
-}
 
 .art{
   align-self: stretch;
