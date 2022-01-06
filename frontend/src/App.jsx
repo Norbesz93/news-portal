@@ -8,6 +8,15 @@ function App() {
   const [isPending, setIsPending] = React.useState(true);
   const [newsBlock, setNewsBlock] = React.useState([]);
   const [times, setTimes] = React.useState([])
+  const [isLoading, setIsLoading] = React.useState( 
+    <div className="scroll-loader">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  )
   
   const req = async () => {
     const response = await axios.get(`http://localhost:8080/api/news`);
@@ -25,7 +34,8 @@ function App() {
 
 
   const next = async () => {
-    const response = await axios.post('http://localhost:8080/api/oldnews', {
+    try {
+      const response = await axios.post('http://localhost:8080/api/oldnews', {
       oldestNewsTime:oldestNewsTime
     }, {
       headers: {
@@ -39,6 +49,14 @@ function App() {
       setNewsBlock([...newsBlock]);
       const timesList = await response.data.map((article) => article.publishedAt)
       setTimes(timesList)
+    } catch (error) {
+      setIsLoading(
+        <p style={{ textAlign: 'center' }}>
+          <b>Yay! You have seen it all</b>
+        </p>
+      )
+    }
+    
     
   };
 
@@ -50,6 +68,7 @@ function App() {
   const newestNewsTime = sortedTimes.pop()
   console.log(oldestNewsTime)
   console.log(newestNewsTime)
+
 
   return (
     <div>
@@ -79,15 +98,7 @@ function App() {
           dataLength={newsBlock.length} //This is important field to render the next data
           next={next}
           hasMore={true}
-          loader={
-            <div className="scroll-loader">
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-          }
+          loader={isLoading}
         >
           {newsBlock.length > 0 &&
             newsBlock.map((article) => (
