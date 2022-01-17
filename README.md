@@ -1,12 +1,8 @@
-# Tech Magazine
+# News Magazine
 
-## Story
+## Required
 
-Create your own online newspaper - a tech-magazine. Create a catchy landing page and while you do not have writers - yet - use an online news API to fetch the news. Do not link them to the original sites - make the articles look better on YOUR site than the original!
-
-## What are you going to learn?
-
-- Parallel working
+-The mongodb compass required to start the application
 
 ## Tasks
 
@@ -19,24 +15,9 @@ Create your own online newspaper - a tech-magazine. Create a catchy landing page
     - The app uses an API key from environment variables, and uses it to fetch the news.
     - NewsAPI is not fetched for every request, but still, fresh news are served.
 
-3. [OPTIONAL] Make the user stay on your site as long as possible. No matter how much they scroll, they should find (older) posts. Use the fancy component from the landing page for loading mask.
-    - When the user scrolls down to the oldest news, the app fetches the backend for older articles.
-    - The newest article is always on the top, in a highlighted position.
-    - When the new news are being fetched, a loading mask is presented.
 
-## General requirements
+## How to start
 
-None
+- First of all npm start in the backend folder from the terminal
 
-## Hints
-
-- Start the project with discussing and describing the necessary API endpoints between the frontend and the backend
-- Design the wall and organize the code keeping in mind that you will get a component that you can use (insert) as a loading mask in the end
-- Start the frontend with describing a minimal styleguide - fonts, colors, border radiuses... - so you can create the two pages (landing / wall) paralell if needed 
-
-## Background materials
-
-- <i class="far fa-exclamation"></i> [NewsAPI documentation](https://newsapi.org/)
-- [Inspiration for online portal landing: VICE](https://vice.com/)
-- [Inspiration for online portal landing: NOWNESS](https://nowness.com/)
-- [Inspiration for online portal landing: POLYGON](https://www.polygon.com)
+- Then npm start in the frontend folder
